@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareCal Dashboard</title>
+
+<style>
+/* ====== GLOBAL ====== */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #333;
+}
+
+/* ====== NAVBAR ====== */
+.navbar {
+  /*background: #1e2a38;*/
+  background: #8354C9;
+  
+  color: white;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+.nav-links span {
+  margin-left: 20px;
+  cursor: pointer;
+  color: #cbd5e1;
+}
+
+.nav-links span:hover {
+  color: white;
+}
+
+/* ====== LAYOUT ====== */
+.container {
+  display: grid;
+  grid-template-columns: 250px 1fr 300px;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* ====== CARDS ====== */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 15px;
+}
+
+/* ====== LEFT PANEL ====== */
+.patient {
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  background: #f1f5f9;
+}
+
+.patient:hover {
+  background: #dbeafe;
+}
+
+/* ====== GAUGE ====== */
+.gauge-container {
+  width: 100%;
+  background: #e5e7eb;
+  border-radius: 50px;
+  height: 25px;
+  overflow: hidden;
+}
+
+.gauge-fill {
+  height: 100%;
+  width: 0%;
+  background: green;
+  transition: 0.3s;
+}
+
+/* ====== INPUT ====== */
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+/* ====== RIGHT LIST ====== */
+.food-item {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="logo">🩺 CareLog</div>
+  <div class="nav-links">
+    <span>Dashboard</span>
+    <span>Patients</span>
+    <span>Settings</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- LEFT: PATIENTS + CARER -->
+  <div>
+
+    <div class="card">
+      <h3>Carer</h3>
+      <p>Logged in: Sarah M.</p>
+    </div>
+
+    <div class="card">
+      <h3>Patients</h3>
+      <div class="patient" onclick="selectPatient('John Doe')">John Doe</div>
+      <div class="patient" onclick="selectPatient('Mary Smith')">Mary Smith</div>
+      <div class="patient" onclick="selectPatient('David Lee')">David Lee</div>
+    </div>
+
+  </div>
+
+  <!-- CENTER: DASHBOARD -->
+  <div>
+
+    <div class="card">
+      <h2 id="patientName">Select a Patient</h2>
+      <p>Daily calorie limit: <b>2000 kcal</b></p>
+
+      <div class="gauge-container">
+        <div class="gauge-fill" id="gauge"></div>
+      </div>
+
+      <p>Total Calories: <span id="total">0</span> kcal</p>
+    </div>
+
+    <div class="card">
+      <h3>Add Food</h3>
+
+      <input id="food" placeholder="Food name">
+      <input id="calories" type="number" placeholder="Calories">
+
+      <button onclick="addFood()">Add Entry</button>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: HISTORY -->
+  <div>
+
+    <div class="card">
+      <h3>📋 Food Log</h3>
+      <div id="list"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+let currentPatient = "";
+let limit = 2000;
+let foods = [];
+
+function selectPatient(name) {
+  currentPatient = name;
+  document.getElementById("patientName").innerText = "Patient: " + name;
+  foods = [];
+  updateUI();
+}
+
+function addFood() {
+  let food = document.getElementById("food").value;
+  let cal = Number(document.getElementById("calories").value);
+
+  if (!food || !cal || !currentPatient) {
+    alert("Select a patient and enter food details");
+    return;
+  }
+
+  foods.push({ food, cal });
+  document.getElementById("food").value = "";
+  document.getElementById("calories").value = "";
+
+  updateUI();
+}
+
+function updateUI() {
+  let total = foods.reduce((sum, item) => sum + item.cal, 0);
+  document.getElementById("total").innerText = total;
+
+  // GAUGE
+  let percent = (total / limit) * 100;
+  let gauge = document.getElementById("gauge");
+
+  gauge.style.width = Math.min(percent, 100) + "%";
+
+  if (percent < 70) gauge.style.background = "green";
+  else if (percent < 90) gauge.style.background = "orange";
+  else gauge.style.background = "red";
+
+  // LIST
+  let list = document.getElementById("list");
+  list.innerHTML = foods.map(f =>
+    `<div class='food-item'>${f.food} - ${f.cal} kcal</div>`
+  ).join("");
+}
+
+</script>
+
+</body>
+</html>
