@@ -7,7 +7,7 @@ body {
     display:flex;
     justify-content:center;
     align-items: center;
-    height: 120vh;
+    height: 100vh;
     
 }
 
@@ -15,7 +15,8 @@ body {
 
 
 .container{
-    width:350px;
+    width:400px;
+    padding: 50px;
 
    
 }
@@ -49,6 +50,7 @@ button:hover {
   background: #1d4ed8;
 }
 h3{
-    color:#0070ba;
+    color:black;
+    font-weight:800;
     text-align: center;
 }
