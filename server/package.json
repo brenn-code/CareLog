@@ -1,21 +1,25 @@
 {
   "name": "specialneedsassistancesystem",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Carer dietary monitoring system API",
+  "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1", 
     "start": "nodemon src/server.js"
-
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/brenn-code/CareLog.git"
   },
-  "keywords": [],
+  "keywords": [
+    "care",
+    "nutrition",
+    "dietary-monitoring",
+    "express",
+    "api"
+  ],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/brenn-code/CareLog/issues"
   },

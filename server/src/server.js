@@ -1,15 +1,36 @@
-const express = require('express')
+import express from "express";
 
-const app = express()
+import recipientRoutes from "./routes/recipientRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
-app.get("/users", (req, res) =>{
-    res.json({message: "user names"});
+
+const app = express();
+
+
+// Middleware
+app.use(express.json());
+
+
+// API Routes
+app.use("/auth", authRoutes);
+app.use("/recipients", recipientRoutes);
+
+
+// Test route
+app.get("/", (req, res) => {
+
+    res.json({
+        message: "Care System API is running"
+    });
+
 });
 
 
+// Start Server
 const PORT = 3000;
-app.listen(PORT, () =>{
+
+app.listen(PORT, () => {
 
     console.log(`Server running on PORT ${PORT}`);
+
 });
-// http://localhost:3000/users
