@@ -2,7 +2,7 @@ import express from "express";
 
 import recipientRoutes from "./routes/recipientRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
-
+import testRoutes from "./routes/testRoutes.js";
 
 const app = express();
 
@@ -14,6 +14,7 @@ app.use(express.json());
 // API Routes
 app.use("/auth", authRoutes);
 app.use("/recipients", recipientRoutes);
+app.use("/test", testRoutes);
 
 
 // Test route
